@@ -1,17 +1,14 @@
 package vn.dev.clinics.service;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import vn.dev.clinics.entity.User;
 import vn.dev.clinics.entity.MedicalRecord;
 import vn.dev.clinics.entity.Message;
 import vn.dev.clinics.entity.Schedule;
-import vn.dev.clinics.model.UserModel;
 import vn.dev.clinics.model.MedicalRecordModel;
 import vn.dev.clinics.model.MessageModel;
 import vn.dev.clinics.model.ScheduleModel;
@@ -23,62 +20,6 @@ public class TransmitService {
 	@Autowired
 	private UserService userService;
 	
-	
-	List<UserModel> userEntitiesToModels(List<User> doctorEntities){
-		List<UserModel> doctors = doctorEntities.stream()
-				.map(entity -> new UserModel(
-						entity.getId(),
-						entity.getCreateDate(),
-						entity.getUpdateDate(),
-						entity.getUsername(),
-						entity.getPassword(),
-						entity.getName(),
-						entity.getDateOfBirth(),
-						entity.getSpectialty(),
-						entity.getSalary().doubleValue(),
-						entity.getDescription(),
-						entity.getPhoneNumber(),
-						entity.getAddress(),
-						entity.getStatus()
-						)).collect(Collectors.toList());
-		return doctors;
-	}
-	
-	UserModel userToModel(User entity) {
-				UserModel model = new UserModel();
-				model.setId(entity.getId());
-				model.setCreateDate(entity.getCreateDate());
-				model.setUpdateDate(entity.getUpdateDate());
-				model.setUsername(entity.getUsername());
-				model.setPasswrod(entity.getPassword());
-				model.setName(entity.getName());
-				model.setDateOfBirth(entity.getDateOfBirth());
-				model.setSpectialty(entity.getSpectialty());
-				model.setSalary(entity.getSalary().doubleValue());
-				model.setDescription(entity.getDescription());
-				model.setPhoneNumber(entity.getPhoneNumber());
-				model.setAddress(entity.getAddress());
-				model.setStatus(entity.getStatus());
-			return model;
-	}
-	
-	User userToEntity(UserModel model) {
-		User entity = new User();
-		entity.setId(model.getId());
-		entity.setCreateDate(model.getCreateDate());
-		entity.setUpdateDate(model.getUpdateDate());
-		entity.setUsername(model.getUsername());
-		entity.setPassword(model.getPasswrod());
-		entity.setName(model.getName());
-		entity.setDateOfBirth(model.getDateOfBirth());
-		entity.setSpectialty(model.getSpectialty());
-		entity.setSalary(BigDecimal.valueOf(model.getSalary()));
-		entity.setDescription(model.getDescription());
-		entity.setPhoneNumber(model.getPhoneNumber());
-		entity.setAddress(model.getAddress());
-		entity.setStatus(model.getStatus());
-		return entity;
-	}
 	
 	List<MessageModel> mesageEntitiesToModels(List<Message> mesageEntities){
 		List<MessageModel> messages = mesageEntities.stream()
@@ -167,7 +108,9 @@ public class TransmitService {
 						entity.getDoctorOfSchedule().getId(),
 						entity.getPatientOfSchedule().getId(),
 						entity.getAppointmentDate(),
-						entity.getDescription()
+						entity.getHour(),
+						entity.getDescription(),
+						entity.getStatus()
 						)).collect(Collectors.toList());
 		return schedules;
 	}
@@ -180,7 +123,9 @@ public class TransmitService {
 			model.setDoctorId(entity.getDoctorOfSchedule().getId());
 			model.setPatientId(entity.getPatientOfSchedule().getId());
 			model.setAppointmentDate(entity.getAppointmentDate());
+			model.setHour(entity.getHour());
 			model.setDescription(entity.getDescription());
+			model.setStatus(entity.getStatus());
 		return model;
 	}
 
@@ -193,7 +138,9 @@ public class TransmitService {
 		entity.setDoctorOfSchedule(userService.getById(model.getDoctorId()));
 		entity.setPatientOfSchedule(userService.getById(model.getPatientId()));
 		entity.setAppointmentDate(model.getAppointmentDate());
+		entity.setHour(model.getHour());
 		entity.setDescription(model.getDescription());
+		entity.setStatus(model.getStatus());
 		return entity;
 	}
 

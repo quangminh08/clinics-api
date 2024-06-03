@@ -9,6 +9,7 @@ import vn.dev.clinics.entity.User;
 
 @Service
 public class UserDetailsServiceImpl extends BaseService<User> implements UserDetailsService{
+	
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -23,6 +24,7 @@ public class UserDetailsServiceImpl extends BaseService<User> implements UserDet
 		}
 		return new User();
 	}
+	
 
 	@Override
 	public Class<User> clazz() {

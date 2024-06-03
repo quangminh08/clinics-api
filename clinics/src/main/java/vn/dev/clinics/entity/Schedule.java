@@ -2,12 +2,12 @@ package vn.dev.clinics.entity;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tbl_schedule")
@@ -23,16 +23,25 @@ public class Schedule extends BaseEntity {
 	@Column(name="appointment_date", nullable = true)
 	private Date appointmentDate;
 	
+	@Column(name="hour", nullable = true)
+	private Integer hour;
+	
 	@Column(name = "description", length = 5000, nullable = true )
 	private String description;
+	
+	@Column(name = "status")
+	private Boolean status = true;
+
 
 	public Schedule(Integer id, Date createDate, Date updateDate, User doctorOfSchedule, User patientOfSchedule,
-			Date appointmentDate, String description) {
+			Date appointmentDate, Integer hour, String description, Boolean status) {
 		super(id, createDate, updateDate);
 		this.doctorOfSchedule = doctorOfSchedule;
 		this.patientOfSchedule = patientOfSchedule;
 		this.appointmentDate = appointmentDate;
+		this.hour = hour;
 		this.description = description;
+		this.status = status;
 	}
 
 	public Schedule() {	}
@@ -68,5 +77,24 @@ public class Schedule extends BaseEntity {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+
+	public Integer getHour() {
+		return hour;
+	}
+
+	public void setHour(Integer hour) {
+		this.hour = hour;
+	}
+	
+	
+	
 	
 }

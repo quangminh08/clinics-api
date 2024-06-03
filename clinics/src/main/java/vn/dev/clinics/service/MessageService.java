@@ -3,7 +3,7 @@ package vn.dev.clinics.service;
 import java.util.Date;
 import java.util.List;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,12 +38,23 @@ public class MessageService extends BaseService<Message>{
 	}
 	
 	@Transactional
-	public MessageModel saveMessage(String usernameLogined, MessageModel model, Integer patientId) {
-		User userLogined = userService.getUserByUsername(usernameLogined);
-		model.setSenderId(userLogined.getId());
+	public MessageModel saveMessage(MessageModel model, Integer senderId, Integer receiverId) {
+		model.setCreateDate(new Date());
+		
+		User sendUser = userService.getById(senderId);
+		if(sendUser.getId() != null ) {
+			model.setSenderId(sendUser.getId());
+		}else {
+			return null;
+		}
+		
+		User receiveUser = userService.getById(receiverId);
+		if(receiveUser.getId() != null ) {
+			model.setReceiverId(receiveUser.getId());
+		}else {
+			return null;
+		}
 		Message entity = transmitService.messsageToEntity(model);
-		entity.setCreateDate(new Date());
-		entity.setReceiverId(patientId);
 		super.saveOrUpdate(entity);
 		return model;
 	}
@@ -63,10 +74,8 @@ public class MessageService extends BaseService<Message>{
 	}
 
 
-	public List<MessageModel> findAllConversation(String usernameLogined, Integer partnerId) {
-		User u = userService.getUserByUsername(usernameLogined);
-		Integer id = u.getId();
-		String sql = "SELECT * FROM clinics04.tbl_message where sender_id="+ id +" and receiver_id="+ partnerId +" or sender_id="+ partnerId +" and receiver_id="+ id +";";
+	public List<MessageModel> findAllConversation(Integer senderId, Integer receiverId) {
+		String sql = "SELECT * FROM clinics04.tbl_message where sender_id="+ senderId +" and receiver_id="+ receiverId +" or sender_id="+ receiverId +" and receiver_id="+ senderId +";";
 		List<Message> entities = super.executeNativeSql(sql);
 		List<MessageModel> models = transmitService.mesageEntitiesToModels(entities);
 		return models;

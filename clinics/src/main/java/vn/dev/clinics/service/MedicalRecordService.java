@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,13 +33,14 @@ public class MedicalRecordService extends BaseService<MedicalRecord> implements 
 	}
 
 	public List<MedicalRecordModel> findAllModel(){
-		List<MedicalRecordModel> models = transmitService.medicalRecordEntitiesToModels(super.findAll());
+		String sql = "SELECT * FROM clinics04.tbl_medical_record order by id desc;";
+		List<MedicalRecordModel> models = transmitService.medicalRecordEntitiesToModels(super.executeNativeSql(sql));
 		return models;
 	}
 	
 
-	public boolean isEmptyUploadImage(MultipartFile avatarFile) {
-		if(avatarFile == null || avatarFile.getOriginalFilename().isEmpty()) {
+	public boolean isEmptyUploadImage(MultipartFile file) {
+		if(file == null || file.getOriginalFilename().isEmpty()) {
 			return true;
 		}
 		return false;
@@ -85,6 +86,7 @@ public class MedicalRecordService extends BaseService<MedicalRecord> implements 
 		else {
 			medicalRecord.setImage(dbMedicalRecord.getImage());
 		}
+		medicalRecord.setId(dbMedicalRecord.getId());
 		medicalRecord.setUpdateDate(new Date());
 		return super.saveOrUpdate(medicalRecord);
 	}
@@ -92,5 +94,10 @@ public class MedicalRecordService extends BaseService<MedicalRecord> implements 
 	@Transactional
 	public void deleteById(Integer id) {
 		super.deleteById(id);
+	}
+
+	public List<MedicalRecordModel> getModelByUserId(Integer userId) {
+		String sql = "SELECT * FROM clinics04.tbl_medical_record where patient_id="+ userId +" order by id desc;";
+		return transmitService.medicalRecordEntitiesToModels(super.executeNativeSql(sql));
 	}
 }

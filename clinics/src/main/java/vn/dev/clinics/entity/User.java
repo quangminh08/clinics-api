@@ -6,13 +6,13 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +30,9 @@ public class User extends BaseEntity implements UserDetails{
 	
 	@Column(name = "name", length = 45, nullable = true )
 	private String name;
+	
+	@Column(name = "avatar", length = 255, nullable = true )
+	private String avatar;
 	
 	@Column(name = "date_of_birth", length = 45, nullable = true )
 	private Date dateOfBirth;
@@ -49,10 +52,17 @@ public class User extends BaseEntity implements UserDetails{
 	@Column(name = "address", length = 1000, nullable = true )
 	private String address;
 	
+	@Column(name = "person_id", length = 45, nullable = true )
+	private String personId;
+	
+	@Column(name = "role", length = 45, nullable = true )
+	private String role;
+	
+	
+	//inactive account
 	@Column(name = "status", nullable = true)
 	private Boolean status;
 	
-	//Mapping one-to-many: product-to-sale_order_product
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userOfMessage")
 	private Set<Message> messages = new HashSet<>();
 	
@@ -133,21 +143,34 @@ public class User extends BaseEntity implements UserDetails{
 		roles.remove(role);
 	}
 
+
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
 	public User(Integer id, Date createDate, Date updateDate, String username, String password, String name,
-			Date dateOfBirth, String spectialty, BigDecimal salary, String description, String phoneNumber,
-			String address, Boolean status, Set<Message> messages, Set<MedicalRecord> medicalRecordsByDoctor,
-			Set<MedicalRecord> medicalRecordsByPatient, Set<Schedule> schedulesByDoctor,
-			Set<Schedule> schedulesByPatient, Set<Role> roles) {
+			String avatar, Date dateOfBirth, String spectialty, BigDecimal salary, String description,
+			String phoneNumber, String address, String personId, String role, Boolean status, Set<Message> messages,
+			Set<MedicalRecord> medicalRecordsByDoctor, Set<MedicalRecord> medicalRecordsByPatient,
+			Set<Schedule> schedulesByDoctor, Set<Schedule> schedulesByPatient, Set<Role> roles) {
 		super(id, createDate, updateDate);
 		this.username = username;
 		this.password = password;
 		this.name = name;
+		this.avatar = avatar;
 		this.dateOfBirth = dateOfBirth;
 		this.spectialty = spectialty;
 		this.salary = salary;
 		this.description = description;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
+		this.personId = personId;
+		this.role = role;
 		this.status = status;
 		this.messages = messages;
 		this.medicalRecordsByDoctor = medicalRecordsByDoctor;
@@ -158,6 +181,15 @@ public class User extends BaseEntity implements UserDetails{
 	}
 
 	public User() {
+	}
+	
+
+	public String getPersonId() {
+		return personId;
+	}
+
+	public void setPersonId(String personId) {
+		this.personId = personId;
 	}
 
 	public String getUsername() {
@@ -230,6 +262,14 @@ public class User extends BaseEntity implements UserDetails{
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public Boolean getStatus() {

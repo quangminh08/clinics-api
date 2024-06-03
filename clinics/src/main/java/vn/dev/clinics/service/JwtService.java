@@ -33,4 +33,5 @@ public class JwtService {
 					.withExpiresAt(new Date(System.currentTimeMillis() + 70*60*1000))
 					.sign(algorithm);
 	}
+	
 }

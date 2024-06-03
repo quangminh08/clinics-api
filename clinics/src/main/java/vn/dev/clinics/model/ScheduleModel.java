@@ -6,7 +6,18 @@ public class ScheduleModel extends BaseModel {
 	private int doctorId;
 	private int patientId;
 	private Date appointmentDate;
+	private Integer hour;
 	private String description;
+	private Boolean status;
+
+	
+	public Integer getHour() {
+		return hour;
+	}
+
+	public void setHour(Integer hour) {
+		this.hour = hour;
+	}
 
 	public int getDoctorId() {
 		return doctorId;
@@ -40,13 +51,25 @@ public class ScheduleModel extends BaseModel {
 		this.description = description;
 	}
 
-	public ScheduleModel(int id, Date createDate, Date updateDate, int doctorId, int patientId, Date appointmentDate,
-			String description) {
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+
+
+
+	public ScheduleModel(Integer id, Date createDate, Date updateDate, int doctorId, int patientId,
+			Date appointmentDate, Integer hour, String description, Boolean status) {
 		super(id, createDate, updateDate);
 		this.doctorId = doctorId;
 		this.patientId = patientId;
 		this.appointmentDate = appointmentDate;
+		this.hour = hour;
 		this.description = description;
+		this.status = status;
 	}
 
 	public ScheduleModel() {

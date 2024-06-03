@@ -3,7 +3,6 @@ package vn.dev.clinics.configure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -30,8 +29,8 @@ public class SecurityConfig {
 		
 //		http.csrf().disable().authorizeRequests()
 //					.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-					.antMatchers("/api/v1/auth", "/**").permitAll()
-//					.requestMatchers(new AntPathRequestMatcher("/api/v1/demo/**")).permitAll()
+//					.antMatchers("/api/v1/auth", "/**").permitAll()
+					.requestMatchers("/api/v1/auth", "/**").permitAll()
 //					.requestMatchers(new AntPathRequestMatcher("/api/v1/demo/**")).hasAnyAuthority("Staff")
 //					.requestMatchers(new AntPathRequestMatcher("/api/v1/medicalrecords/**"))
 //					.authenticated()
@@ -42,7 +41,7 @@ public class SecurityConfig {
 //					.requestMatchers(new AntPathRequestMatcher("/api/v1/messages/**"))
 //						.authenticated()
 //					.anyRequest().authenticated()
-					.antMatchers("/api/v1/medicalrecords/**").hasAnyAuthority("User","Staff", "Admin")
+//					.antMatchers("/api/v1/medicalrecords/**").hasAnyAuthority("User","Staff", "Admin")
 					
 //					.antMatchers("/api/v1/users/**").hasAnyAuthority("Staff", "Admin")
 //					.antMatchers("/api/v1/users", "/**").hasAnyAuthority("Staff", "Admin")

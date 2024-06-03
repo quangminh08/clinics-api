@@ -7,15 +7,34 @@ public class UserModel extends BaseModel {
 	private String username;
 	private String passwrod;
 	private String name;
+	private String avatar;
 	private Date dateOfBirth;
 	private String spectialty;
 	private Double salary;
 	private String description;
 	private String phoneNumber;
 	private String address;
+	private String personId;
+
+	private String role;
 	private Boolean status;
-	
-	
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
+	public String getPersonId() {
+		return personId;
+	}
+
+	public void setPersonId(String personId) {
+		this.personId = personId;
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -25,6 +44,9 @@ public class UserModel extends BaseModel {
 	}
 
 	public String getPasswrod() {
+		if (this.passwrod == null) {
+			return "";
+		}
 		return passwrod;
 	}
 
@@ -96,19 +118,30 @@ public class UserModel extends BaseModel {
 		this.address = address;
 	}
 
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 	public UserModel(Integer id, Date createDate, Date updateDate, String username, String passwrod, String name,
-			Date dateOfBirth, String spectialty, Double salary, String description, String phoneNumber, String address,
-			Boolean status) {
+			String avatar, Date dateOfBirth, String spectialty, Double salary, String description, String phoneNumber,
+			String address, String personId, String role, Boolean status) {
 		super(id, createDate, updateDate);
 		this.username = username;
 		this.passwrod = passwrod;
 		this.name = name;
+		this.avatar = avatar;
 		this.dateOfBirth = dateOfBirth;
 		this.spectialty = spectialty;
 		this.salary = salary;
 		this.description = description;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
+		this.personId = personId;
+		this.role = role;
 		this.status = status;
 	}
 

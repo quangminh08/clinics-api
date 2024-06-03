@@ -2,9 +2,9 @@ package vn.dev.clinics.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import vn.dev.clinics.model.MessageModel;
 import vn.dev.clinics.service.MessageService;
 
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1/messages")
 public class MessageController {
@@ -31,16 +31,14 @@ public class MessageController {
 		return messageService.getModelById(id);
 	}
 	
-	@GetMapping("/conversation/{partnerId}")
-	public List<MessageModel> messages(HttpServletRequest request ,@PathVariable("partnerId") Integer partnerId){
-		String usernameLogined =request.getUserPrincipal().getName();
-		return messageService.findAllConversation(usernameLogined, partnerId);
+	@GetMapping("/conversation/{senderId}/{receiverId}")
+	public List<MessageModel> messages(@PathVariable("senderId") Integer senderId ,@PathVariable("receiverId") Integer receiverId){
+		return messageService.findAllConversation(senderId, receiverId);
 	}
 	
-	@PostMapping("conversation/{patientId}")
-	public MessageModel savePatientMessage(HttpServletRequest request, @RequestBody MessageModel message, @PathVariable("patientId") Integer patientId) {
-		String usernameLogined =request.getUserPrincipal().getName();
-		return messageService.saveMessage(usernameLogined, message, patientId);
+	@PostMapping("conversation/{senderId}/{receiverId}")
+	public MessageModel savePatientMessage(@RequestBody MessageModel message, @PathVariable("senderId") Integer senderId ,@PathVariable("receiverId") Integer receiverId) {
+		return messageService.saveMessage(message, senderId, receiverId);
 	}
 
 	

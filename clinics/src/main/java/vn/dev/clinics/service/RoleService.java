@@ -21,24 +21,16 @@ public class RoleService extends BaseService<Role> {
 	}
 	
 	public String checkRoleOfUserById(int userId) {
-		Role adminRole = getRoleByName("Admin");
+		Role adminRole = getRoleByName("doctor");
 		List<User> admins = adminRole.getUsers();
 		
 		for(User admin : admins) {
 			if(admin.getId() == userId) {
-				return "Admin";
+				return "doctor";
 			}
 		}	
 		
-		Role staffRole = getRoleByName("Staff");
-		List<User> staffs = staffRole.getUsers();
 		
-		for(User staff : staffs) {
-			if(staff.getId() == userId) {
-				return "Staff";
-			}
-		}	
-		
-		return "Customer";
+		return "customer";
 	}
 }
